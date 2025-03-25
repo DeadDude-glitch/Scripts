@@ -1,0 +1,14 @@
+#!/bin/bash
+// To read emails from enron dataset, I created this script to put them in an mbox format.
+// It requires tweaking at line 8, not all emails exists within $dir/inbox
+for dir in */; do
+    dir=${dir%/}  # Remove trailing slash
+    if [[ -d "$dir/inbox" ]]; then
+        echo "Processing $dir..."
+        cat "$dir/inbox/"* | formail -ds > "$dir.mbox"
+    else
+        echo "Skipping $dir (no inbox directory found)"
+    fi
+done
+
+echo "Conversion completed."
